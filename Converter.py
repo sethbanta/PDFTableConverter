@@ -98,6 +98,10 @@ def convertFuncBatch(p):
                     line_count += 1
     print(f'Processed {line_count} lines.')
     print(f'Found {dupeCount} duplicate columns')
+    for filepath in glob.glob("*.csv"):
+        name = os.path.basename(filepath)
+        if(name != "output_clean.csv"):
+            os.remove(name)
     if(cleanFileExists):
         print(f'Overwrote output_clean.csv, this will cause confusion if the same data was ran on')
     else:
