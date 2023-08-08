@@ -1,3 +1,5 @@
+#Author Seth Banta
+#https://github.com/sethbanta
 import tabula
 import csv
 import os
@@ -62,7 +64,7 @@ def convertFuncBatch(p):
     #convert all pdfs within the directory to csvs
     for filepath in glob.glob(p+'\\*.pdf'):
         name = os.path.basename(filepath)
-        #tabula.convert_into(filepath, name+".csv", output_format="csv", pages='all')
+        tabula.convert_into(filepath, name+".csv", output_format="csv", pages='all')
     #for every csv we made, read and write to a clean output file
     for filepath in glob.glob("*.csv"):
         name = os.path.basename(filepath)
