@@ -67,12 +67,22 @@ def convertFuncBatch(p):
         tabula.convert_into(filepath, name+".csv", output_format="csv", pages='all')
     #for every csv we made, read and write to a clean output file
     for filepath in glob.glob("*.csv"):
+        #grab filename
         name = os.path.basename(filepath)
+        #place filename into an array as the only value
+        #this is so that it can be properly added to the CSV
+        #without it being in an array, it kinda freaks out
+        nameForCSV = [name]
         #read in the csv file
         with open(name) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
             #begin tracking how many lines we have processed
             line_count = 0
+            with open('output_clean.csv', mode='a', newline='') as csv_file:
+                #create a new csv writer to output_clean.csv
+                #this writer is set to append mode so it adds to the end of the file
+                csv_writer = csv.writer(csv_file, quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                csv_writer.writerow(nameForCSV)
             for row in csv_reader:
                 #check if its the first column we are reading, that way we dont perform a search on an empty array
                 if line_count == 0:
@@ -98,6 +108,7 @@ def convertFuncBatch(p):
                     line_count += 1
     print(f'Processed {line_count} lines.')
     print(f'Found {dupeCount} duplicate columns')
+    #Clean up excess CSV's
     for filepath in glob.glob("*.csv"):
         name = os.path.basename(filepath)
         if(name != "output_clean.csv"):
